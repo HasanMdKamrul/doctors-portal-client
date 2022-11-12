@@ -1,9 +1,8 @@
 import React from "react";
 import chair from "../../../assets/images/chair.png";
 import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
-import "./Banner.css";
 
-const Banner = () => {
+const AppointmentBanner = () => {
   return (
     <div className="hero banner-bg lg:w-[1363px] lg:h-[838px]   ">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -22,4 +21,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default AppointmentBanner;
