@@ -1,7 +1,10 @@
+import { format } from "date-fns";
 import React from "react";
 
-const BookingModal = ({ treatment }) => {
-  const { name } = treatment;
+const BookingModal = ({ treatment, selectedDate }) => {
+  const { name, slots } = treatment;
+
+  const date = format(selectedDate, "PP");
 
   return (
     <div>
@@ -15,10 +18,30 @@ const BookingModal = ({ treatment }) => {
             ✕
           </label>
           <h3 className="text-lg font-bold">{name}</h3>
-          <p className="py-4">
-            You've been selected for a chance to get one year of subscription to
-            use Wikipedia for free!
-          </p>
+          <form className="mt-10">
+            <input
+              disabled
+              value={date}
+              className="input input-bordered w-full   mt-2"
+            />
+
+            <select className="select select-bordered w-full mt-2 ">
+              {slots.map((slot, index) => (
+                <option value={slot} key={index}>
+                  {slot}
+                </option>
+              ))}
+            </select>
+            <input className="input input-bordered w-full  mt-2" />
+            <input className="input input-bordered w-full  mt-2" />
+            <input className="input input-bordered w-full  mt-2" />
+
+            <input
+              className="input mt-10 input-bordered w-full bg-accent text-white "
+              type="submit"
+              value="Submit"
+            />
+          </form>
         </div>
       </div>
     </div>

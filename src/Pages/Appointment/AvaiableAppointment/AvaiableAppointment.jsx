@@ -10,7 +10,7 @@ const AvaiableAppointment = ({ selectedDate }) => {
         )}
       </div>
       <div>
-        <Services />
+        <Services selectedDate={selectedDate} />
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BookingModal from "./BookingModal/BookingModal";
 import Service from "./Service";
 
-const Services = () => {
+const Services = ({ selectedDate }) => {
   const [appointmentOptions, setAppointmentOptions] = useState([]);
   const [treatment, setTreatment] = useState(null);
 
@@ -30,7 +30,9 @@ const Services = () => {
           />
         ))}
       </div>
-      {treatment && <BookingModal treatment={treatment} />}
+      {treatment && (
+        <BookingModal selectedDate={selectedDate} treatment={treatment} />
+      )}
     </>
   );
 };
