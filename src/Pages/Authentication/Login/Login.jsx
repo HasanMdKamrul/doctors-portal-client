@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const Login = () => {
   const {
@@ -9,8 +10,25 @@ const Login = () => {
     handleSubmit,
   } = useForm();
 
+  const [logInError, setLogInError] = useState("");
+  const { signIn, setLoading } = useContext(AuthContext);
+
   const handleLogin = (data) => {
     console.log(data);
+    setLogInError("");
+
+    const logIn = async () => {
+      try {
+        const result = await signIn(data.email, data.password);
+        const user = result.user;
+        console.log(user);
+      } catch (error) {
+        setLogInError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    logIn();
   };
 
   return (
@@ -60,7 +78,7 @@ const Login = () => {
               value="Log In"
               className="btn btn-accent mt-2"
             />
-
+            {logInError && <p className="text-red-600">Error: {logInError}</p>}
             <label className="label">
               <span className="label-text">
                 New to Doctor's Portal ?{" "}

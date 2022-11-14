@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
@@ -22,12 +23,20 @@ const useFirebase = () => {
     return () => unsubscribe();
   }, []);
 
+  //   ** user creation
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const authInfo = { createUser, loading, setLoading, user };
+  //   ** user signin
+
+  const signIn = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const authInfo = { createUser, loading, setLoading, user, signIn };
 
   return authInfo;
 };

@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, setLoading } = useContext(AuthContext);
+  const [signUpError, setSignUpError] = useState("");
   const {
     register,
     handleSubmit,
@@ -14,12 +15,17 @@ const SignUp = () => {
   const handleSignUp = (data) => {
     console.log(data);
 
+    setSignUpError("");
+
     const userCreation = async () => {
       try {
         const result = await createUser(data.email, data.password);
         console.log(result.user);
       } catch (error) {
         console.log(error.message);
+        setSignUpError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -96,6 +102,7 @@ const SignUp = () => {
               value="Log In"
               className="btn btn-accent mt-2"
             />
+            {signUpError && <p>Error : {signUpError}</p>}
             <label className="label">
               <span className="label-text">
                 Already have an account?
