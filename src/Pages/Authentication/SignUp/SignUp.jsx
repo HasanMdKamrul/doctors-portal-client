@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const SignUp = () => {
+  const { createUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -11,12 +13,23 @@ const SignUp = () => {
 
   const handleSignUp = (data) => {
     console.log(data);
+
+    const userCreation = async () => {
+      try {
+        const result = await createUser(data.email, data.password);
+        console.log(result.user);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    userCreation();
   };
 
   return (
     <div>
       <div className="h-screen flex justify-center items-center">
-        <div className="w-[385px] h-[480px] shadow-lg p-7  rounded-2xl">
+        <div className="w-[385px] h-[556px] shadow-lg p-7  rounded-2xl">
           <h1 className=" text-xl text-center font-bold">Sign Up</h1>
           <form
             onSubmit={handleSubmit(handleSignUp)}
@@ -27,7 +40,10 @@ const SignUp = () => {
             </label>
             <input
               {...register("name", {
-                required: "Name is required",
+                required: {
+                  value: true,
+                  message: "Name is required",
+                },
               })}
               type="text"
               placeholder="Name..."
