@@ -1,30 +1,47 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-
-const menuItems = (
-  <>
-    <li>
-      <Link to="/home">Home</Link>
-    </li>
-    <li>
-      <Link to="/about">About</Link>
-    </li>
-    <li>
-      <Link to="/appointment">Appointment</Link>
-    </li>
-    <li>
-      <Link to="/reviews">Reviews</Link>
-    </li>
-    <li>
-      <Link to="/contact">Contact Us</Link>
-    </li>
-    <li>
-      <Link to="/login">Login</Link>
-    </li>
-  </>
-);
+import { AuthContext } from "../../../../../contexts/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      console.log("User logged out");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const menuItems = (
+    <>
+      <li>
+        <Link to="/home">Home</Link>
+      </li>
+      <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/appointment">Appointment</Link>
+      </li>
+      <li>
+        <Link to="/reviews">Reviews</Link>
+      </li>
+      <li>
+        <Link to="/contact">Contact Us</Link>
+      </li>
+      {user && user?.uid ? (
+        <li>
+          <Link onClick={handleLogout}>SignOut</Link>
+        </li>
+      ) : (
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+      )}
+    </>
+  );
   return (
     <div className="navbar bg-base-100 flex justify-between">
       <div className="navbar-start">
