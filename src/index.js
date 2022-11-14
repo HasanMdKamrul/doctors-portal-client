@@ -1,6 +1,7 @@
 import React from "react";
 import "react-day-picker/dist/style.css";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
 import App from "./App";
 import AuthProvider from "./contexts/AuthProvider";
 import "./index.css";
@@ -11,6 +12,7 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <App />
+      <Toaster />
     </AuthProvider>
   </React.StrictMode>
 );

@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
@@ -43,8 +44,21 @@ const useFirebase = () => {
     setLoading(true);
     return signOut(auth);
   };
+  //   ** update profile
 
-  const authInfo = { logOut, createUser, loading, setLoading, user, signIn };
+  const userProfileUpdate = (userInfo) => {
+    return updateProfile(auth.currentUser, userInfo);
+  };
+
+  const authInfo = {
+    userProfileUpdate,
+    logOut,
+    createUser,
+    loading,
+    setLoading,
+    user,
+    signIn,
+  };
 
   return authInfo;
 };

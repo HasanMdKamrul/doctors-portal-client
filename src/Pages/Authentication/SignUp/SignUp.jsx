@@ -1,16 +1,26 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const SignUp = () => {
-  const { createUser, setLoading } = useContext(AuthContext);
+  const { createUser, setLoading, userProfileUpdate } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const profileUpdate = async (profileInfo) => {
+    try {
+      await userProfileUpdate(profileInfo);
+      toast("User Profile has been updated");
+    } catch (error) {
+      setSignUpError(error.message);
+    }
+  };
 
   const handleSignUp = (data) => {
     console.log(data);
@@ -20,7 +30,14 @@ const SignUp = () => {
     const userCreation = async () => {
       try {
         const result = await createUser(data.email, data.password);
+
         console.log(result.user);
+
+        const userInfo = {
+          displayName: data.name,
+        };
+
+        await profileUpdate(userInfo);
       } catch (error) {
         console.log(error.message);
         setSignUpError(error.message);

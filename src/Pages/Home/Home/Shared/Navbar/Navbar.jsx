@@ -32,9 +32,14 @@ const Navbar = () => {
         <Link to="/contact">Contact Us</Link>
       </li>
       {user && user?.uid ? (
-        <li>
-          <Link onClick={handleLogout}>SignOut</Link>
-        </li>
+        <>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link onClick={handleLogout}>SignOut</Link>
+          </li>
+        </>
       ) : (
         <li>
           <Link to="/login">Login</Link>
