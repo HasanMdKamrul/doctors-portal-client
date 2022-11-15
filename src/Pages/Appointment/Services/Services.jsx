@@ -9,9 +9,14 @@ const Services = ({ selectedDate }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch(`appointmentOptions.json`);
+        const response = await fetch(
+          `http://localhost:15000/appointmentoptions`
+        );
         const data = await response.json();
-        setAppointmentOptions(data);
+
+        if (data?.success) {
+          setAppointmentOptions(data?.data);
+        }
       } catch (error) {
         console.log(error.message);
       }
