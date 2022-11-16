@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const SignUp = () => {
@@ -13,10 +13,11 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const profileUpdate = async (profileInfo) => {
     try {
       await userProfileUpdate(profileInfo);
-      toast("User Profile has been updated");
     } catch (error) {
       setSignUpError(error.message);
     }
@@ -38,6 +39,11 @@ const SignUp = () => {
         };
 
         await profileUpdate(userInfo);
+        console.log(data.name, data.email);
+        // ** User Save  in Db
+        await saveUserInDb(data?.name, data?.email);
+        toast("User Profile has been updated");
+        navigate("/");
       } catch (error) {
         console.log(error.message);
         setSignUpError(error.message);
@@ -47,6 +53,29 @@ const SignUp = () => {
     };
 
     userCreation();
+  };
+
+  const saveUserInDb = async (name, email) => {
+    console.log(name, email);
+    const user = {
+      name: name,
+      email: email,
+    };
+    console.log(user);
+
+    try {
+      const response = await fetch(`http://localhost:15000/users`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
