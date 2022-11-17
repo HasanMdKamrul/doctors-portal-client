@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useToken from "../../../Hooks/useToken";
 
 const SignUp = () => {
   const { createUser, setLoading, userProfileUpdate } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState("");
+  const [createdEmail, setCreatedEmail] = useState("");
   const {
     register,
     handleSubmit,
@@ -14,6 +16,16 @@ const SignUp = () => {
   } = useForm();
 
   const navigate = useNavigate();
+
+  const [token] = useToken(createdEmail);
+
+  console.log(createdEmail);
+
+  console.log("Token", token);
+
+  if (token) {
+    navigate("/");
+  }
 
   const profileUpdate = async (profileInfo) => {
     try {
@@ -43,7 +55,8 @@ const SignUp = () => {
         // ** User Save  in Db
         await saveUserInDb(data?.name, data?.email);
         toast("User Profile has been updated");
-        navigate("/");
+
+        setCreatedEmail(data.email);
       } catch (error) {
         console.log(error.message);
         setSignUpError(error.message);

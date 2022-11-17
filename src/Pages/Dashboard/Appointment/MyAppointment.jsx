@@ -10,7 +10,11 @@ const MyAppointment = () => {
   const { data: bookings = [] } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = await response.json();
       return data.data;
     },
@@ -33,7 +37,7 @@ const MyAppointment = () => {
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
-                <tr>
+                <tr key={booking._id}>
                   <th>{index + 1}</th>
                   <td>{booking?.treatmentName}</td>
                   <td>{booking?.patientName}</td>
