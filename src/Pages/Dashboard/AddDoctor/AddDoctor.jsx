@@ -21,6 +21,7 @@ const AddDoctor = () => {
 
   const handleAddADoctor = (data) => {
     console.log(data);
+    console.log(data.photo[0]);
   };
 
   if (isLoading) {
@@ -80,6 +81,21 @@ const AddDoctor = () => {
               </option>
             ))}
           </select>
+          <label className="label">
+            <span className="label-text">Photo</span>
+          </label>
+          <input
+            {...register("photo", {
+              required: {
+                value: true,
+                message: "Photo is required",
+              },
+            })}
+            type="file"
+            placeholder="Name..."
+            className="input input-bordered w-full"
+          />
+          {errors.photo && <p>{errors?.photo?.message}</p>}
           <input
             type="submit"
             value="Add A Doctor"
