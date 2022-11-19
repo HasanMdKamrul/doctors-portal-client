@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
+import Loader from "../../Home/Home/Shared/Loader/Loader";
 
 const AddDoctor = () => {
   const {
@@ -8,9 +10,22 @@ const AddDoctor = () => {
     formState: { errors },
   } = useForm();
 
+  const { data: specialities = [], isLoading } = useQuery({
+    queryKey: ["doctorSpeciality"],
+    queryFn: async () => {
+      const response = await fetch(`http://localhost:15000/doctorSpeciality`);
+      const data = await response.json();
+      return data.data;
+    },
+  });
+
   const handleAddADoctor = (data) => {
     console.log(data);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -55,14 +70,15 @@ const AddDoctor = () => {
           <label className="label">
             <span className="label-text">Select Speciality</span>
           </label>
-          <select className="select select-primary w-full max-w-xs">
-            <option disabled selected>
-              What is the best TV show?
-            </option>
-            <option>Game of Thrones</option>
-            <option>Lost</option>
-            <option>Breaking Bad</option>
-            <option>Walking Dead</option>
+          <select
+            {...register("speciality")}
+            className="select select-primary w-full max-w-xs"
+          >
+            {specialities?.map((speciality) => (
+              <option key={speciality._id} value={speciality?.name}>
+                {speciality?.name}
+              </option>
+            ))}
           </select>
           <input
             type="submit"
