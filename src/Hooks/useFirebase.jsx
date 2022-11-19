@@ -34,6 +34,7 @@ const useFirebase = () => {
   //   ** user signin
 
   const signIn = (email, password) => {
+    localStorage.removeItem("token");
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
