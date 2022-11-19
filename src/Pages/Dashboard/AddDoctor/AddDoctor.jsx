@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import Loader from "../../Home/Home/Shared/Loader/Loader";
 
 const AddDoctor = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -38,14 +41,37 @@ const AddDoctor = () => {
             body: formData,
           }
         );
-        const { data } = await response.json();
-        const { url } = data;
-        console.log(url);
+        const imageDataGot = await response.json();
+        if (imageDataGot.success) {
+          const { url } = imageDataGot?.data;
+          console.log(url);
+          const response = await fetch(`http://localhost:15000/doctors`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              authorization: `bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              name: data.name,
+              email: data.email,
+              speciality: data.speciality,
+              photo: url,
+            }),
+          });
+          const doctorsData = await response.json();
+
+          if (doctorsData.success) {
+            toast.success(`Mr/Mrs ${data?.name} added successfully`);
+            navigate("/dashboard/managedoctor");
+          }
+        }
       } catch (error) {
         console.log(error.message);
       }
     };
     upLoadImage();
+
+    // ** Save the doctors data to mongodb
   };
 
   if (isLoading) {
