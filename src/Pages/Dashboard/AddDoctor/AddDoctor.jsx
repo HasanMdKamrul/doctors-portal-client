@@ -22,6 +22,30 @@ const AddDoctor = () => {
   const handleAddADoctor = (data) => {
     console.log(data);
     console.log(data.photo[0]);
+
+    const imageData = data.photo[0];
+    const formData = new FormData();
+    formData.append("image", imageData);
+
+    // ** image upload to image BB
+
+    const upLoadImage = async () => {
+      try {
+        const response = await fetch(
+          `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imageBB_key}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const { data } = await response.json();
+        const { url } = data;
+        console.log(url);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    upLoadImage();
   };
 
   if (isLoading) {
