@@ -98,6 +98,8 @@ const ManageDoctor = () => {
       </div>
       {deletingDoctor && (
         <ConfirmationModal
+          actionText="Delete"
+          cancelText="Cancel"
           deleteHandler={deleteHandler}
           modalData={deletingDoctor}
           cancelHandler={cancelHandler}

@@ -1,6 +1,8 @@
 import React from "react";
 
 const ConfirmationModal = ({
+  cancelText,
+  actionText,
   title,
   message,
   cancelHandler,
@@ -20,14 +22,14 @@ const ConfirmationModal = ({
               htmlFor="confirmation-modal"
               className="btn"
             >
-              Yay!
+              {actionText}
             </label>
             <label
               onClick={cancelHandler}
               htmlFor="confirmation-modal"
               className="btn"
             >
-              cancel
+              {cancelText}
             </label>
           </div>
         </div>
