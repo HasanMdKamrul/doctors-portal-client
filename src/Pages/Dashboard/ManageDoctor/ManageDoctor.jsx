@@ -63,9 +63,11 @@ const ManageDoctor = () => {
           <thead>
             <tr>
               <th></th>
+              <th>Avatar</th>
               <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Email</th>
+              <th>Speciality</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>

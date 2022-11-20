@@ -30,6 +30,8 @@ const AddDoctor = () => {
     const formData = new FormData();
     formData.append("image", imageData);
 
+    console.log(formData);
+
     // ** image upload to image BB
 
     const upLoadImage = async () => {

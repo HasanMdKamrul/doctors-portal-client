@@ -8,7 +8,9 @@ import AddDoctor from "../Pages/Dashboard/AddDoctor/AddDoctor";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import MyAppointment from "../Pages/Dashboard/Appointment/MyAppointment";
 import ManageDoctor from "../Pages/Dashboard/ManageDoctor/ManageDoctor";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 import Home from "../Pages/Home/Home/Home";
+import ErrorPage from "../Pages/Home/Home/Shared/ErrorPage/ErrorPage";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 
@@ -16,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -75,6 +78,16 @@ const router = createBrowserRouter([
             <ManageDoctor />
           </AdminRoute>
         ),
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: (
+          <AdminRoute>
+            <Payment />
+          </AdminRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:15000/bookings/${params.id}`),
       },
     ],
   },
